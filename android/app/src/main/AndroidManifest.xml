@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flutter_graphql_demo">
+    package="unal.flutter_app_prueba_uno">
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -8,7 +8,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="flutter_graphql_demo"
+        android:label="flutter_app_prueba_uno"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

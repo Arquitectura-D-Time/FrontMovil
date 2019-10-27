@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:io';
+import 'dart:convert';
+import 'package:path_provider/path_provider.dart';
 
-
-void main() {
-  runApp(MaterialApp(title: "GQL App", home: MyApp()));
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    /// HttpLink - A system of modular components for GraphQL networking.
     final HttpLink httpLink =
-        HttpLink(uri: "https://countries.trevorblades.com/");
+    HttpLink(
+        uri: 'http://146.148.107.218:5000/graphql?'
+    );
+
     final ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
       GraphQLClient(
         link: httpLink as Link,
@@ -19,56 +24,80 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
-    return GraphQLProvider(
-      child: HomePage(),
-      client: client,
+
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: GraphQLProvider(
+        child: CountryListView(),
+        client: client,
+      ),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
 
-  final String query = r"""
-                    query GetContinent($code : String!){
-                      continent(code:$code){
-                        name
-                        countries{
-                          name
-                        }
+class CountryListView extends StatelessWidget {
+  final String query = '''
+                    query {
+                      allAgendadas {
+                        NombreAlumno
                       }
                     }
-                  """;
+                    ''';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("GraphlQL Client"),
+        title: Text('List of Countries'),
       ),
       body: Query(
         options: QueryOptions(
-            document: query, variables: <String, dynamic>{"code": "AS"}),
-        builder: (
-          QueryResult result, {
-          VoidCallback refetch,
-        }) {
+            document: query,
+        ),
+        builder: (QueryResult result, {VoidCallback refetch}) {
+          print(result.data);
           if (result.loading) {
             return Center(child: CircularProgressIndicator());
           }
+          print('xsdfs');
+          print(result.data);
+          print(result.errors);
+          print('asdasd');
           if (result.data == null) {
-            return Text("No Data Found !");
+            //return Center(child: Text('Countries not found.'));
+            print(result.errors);
           }
-          return ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                title:
-                    Text(result.data['continent']['countries'][index]['name']),
-              );
-            },
-            itemCount: result.data['continent']['countries'].length,
-          );
+          return _countriesView(result);
         },
       ),
+    );
+  }
+
+  ListView _countriesView(QueryResult result) {
+    final countryList = result.data['allAgendadas'];
+
+    debugPrint(countryList[0]['NombreAlumno']);
+
+    return ListView.separated(
+      itemCount: countryList.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(countryList[index]['NombreAlumno']),
+          onTap: () {
+              final snackBar = SnackBar(
+                  content:
+                  Text('Selected Country: ${countryList[index]['NombreAlumno']}'));
+              Scaffold.of(context).showSnackBar(snackBar);
+          },
+        );
+      },
+      separatorBuilder: (context, index) {
+        return Divider();
+      },
     );
   }
 }
