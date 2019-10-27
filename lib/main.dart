@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
+import 'package:flutter_app_prueba_uno/Web/Ips.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
     /// HttpLink - A system of modular components for GraphQL networking.
     final HttpLink httpLink =
     HttpLink(
-        uri: 'http://146.148.107.218:5000/graphql?'
+        uri: CLIENT_URI
     );
 
     final ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
@@ -51,9 +53,7 @@ class CountryListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('List of Countries'),
-      ),
+      appBar:TutoriasAppBar().build(context),
       body: Query(
         options: QueryOptions(
             document: query,
