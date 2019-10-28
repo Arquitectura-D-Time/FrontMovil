@@ -1,54 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_prueba_uno/QueryMutation.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
-import 'package:flutter_app_prueba_uno/Web/Ips.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:io';
-import 'dart:convert';
-import 'package:path_provider/path_provider.dart';
 
-void main() => runApp(MyApp());
+import 'GraphQLConfiguration.dart';
+
+GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+
+void main() => runApp(
+  GraphQLProvider(
+    client: graphQLConfiguration.client,
+    child: CacheProvider(child: MyApp()),
+  ),
+);
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    /// HttpLink - A system of modular components for GraphQL networking.
-    final HttpLink httpLink =
-    HttpLink(
-        uri: CLIENT_URI
-    );
-
-    final ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
-      GraphQLClient(
-        link: httpLink as Link,
-        cache: OptimisticCache(
-          dataIdFromObject: typenameDataIdFromObject,
-        ),
-      ),
-    );
-
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Example',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: GraphQLProvider(
-        child: CountryListView(),
-        client: client,
-      ),
+      home: CountryListView(),
     );
   }
 }
 
 
 class CountryListView extends StatelessWidget {
-  final String query = '''
-                    query {
-                      allAgendadas {
-                        NombreAlumno
-                      }
-                    }
-                    ''';
+
+  Agendadas agen = Agendadas();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +40,7 @@ class CountryListView extends StatelessWidget {
       appBar:TutoriasAppBar().build(context),
       body: Query(
         options: QueryOptions(
-            document: query,
+            document: agen.deleteAgendadas(),
         ),
         builder: (QueryResult result, {VoidCallback refetch}) {
           print(result.data);
@@ -78,7 +62,7 @@ class CountryListView extends StatelessWidget {
   }
 
   ListView _countriesView(QueryResult result) {
-    final countryList = result.data['allAgendadas'];
+    final countryList = result.data['updateAgendadas'];
 
     debugPrint(countryList[0]['NombreAlumno']);
 
