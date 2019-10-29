@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_prueba_uno/QueryMutation.dart';
+import 'package:flutter_app_prueba_uno/Pages/Agendadas.dart';
+import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/foundation.dart';
 
-import 'GraphQLConfiguration.dart';
+import 'Web/GraphQLConfiguration.dart';
+
 
 GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+AgendadasUI agendadasUI = AgendadasUI();
 
 void main() => runApp(
   GraphQLProvider(
@@ -24,15 +27,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CountryListView(),
+      home: agendadasUI,
     );
   }
 }
 
-
+/*
 class CountryListView extends StatelessWidget {
 
-  Agendadas agen = Agendadas();
+  AgendadasQuery agen = AgendadasQuery();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +43,7 @@ class CountryListView extends StatelessWidget {
       appBar:TutoriasAppBar().build(context),
       body: Query(
         options: QueryOptions(
-            document: agen.deleteAgendadas(),
+          document: agen.getAllAgendadas(),
         ),
         builder: (QueryResult result, {VoidCallback refetch}) {
           print(result.data);
@@ -72,10 +75,10 @@ class CountryListView extends StatelessWidget {
         return ListTile(
           title: Text(countryList[index]['NombreAlumno']),
           onTap: () {
-              final snackBar = SnackBar(
-                  content:
-                  Text('Selected Country: ${countryList[index]['NombreAlumno']}'));
-              Scaffold.of(context).showSnackBar(snackBar);
+            final snackBar = SnackBar(
+                content:
+                Text('Selected Country: ${countryList[index]['NombreAlumno']}'));
+            Scaffold.of(context).showSnackBar(snackBar);
           },
         );
       },
@@ -85,3 +88,4 @@ class CountryListView extends StatelessWidget {
     );
   }
 }
+*/
