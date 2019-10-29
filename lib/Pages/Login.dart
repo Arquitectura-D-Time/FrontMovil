@@ -1,16 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
-import 'package:flutter_app_prueba_uno/Pages/Login.dart';
 import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/foundation.dart';
 
-class AgendadasUI extends StatelessWidget {
-  //final _suggestions =['asd','asdsss','asds','asdd','asda','asd','asdsss','asds','asdd','asda'];
-
+class LoginUI extends StatelessWidget {
   QueryMutations queries = QueryMutations();
 
+  String hola = "ercruzr@unal.edu.co";
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +19,24 @@ class AgendadasUI extends StatelessWidget {
       appBar: TutoriasAppBar().build(context),
       body: Query(
         options: QueryOptions(
-          document: queries.getAllAgendadas(),
-        ),
+          document:'''
+          mutation{
+        createSession(session: {
+        email: "ercruzr@unal.edu.co"
+        password: "123456"
+        }) {
+        id
+        email
+        name
+        nickname
+        token
+        type
+        client
+        uid
+        }
+        }'''
+
+    ),
         builder: (QueryResult result, {VoidCallback refetch}) {
           if (result.loading) {
             return Center(child: CircularProgressIndicator());
@@ -37,15 +53,17 @@ class AgendadasUI extends StatelessWidget {
   }
 
   Widget _buildList(QueryResult result) {
-    final _suggestions = result.data['allAgendadas'];
+    final _suggestions = result.data;
+
     return ListView.builder(
       itemBuilder: (context, i) {
         if (i < _suggestions.length) {
-          return _Cards(_suggestions[i]['NombreAlumno']);
+          return _Cards(_suggestions[i]);
         }
       },
     );
   }
+
 
   Widget _Cards(String cadenita) {
     return Center(
@@ -78,4 +96,5 @@ class AgendadasUI extends StatelessWidget {
       ),
     );
   }
+
 }

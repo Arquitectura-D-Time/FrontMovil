@@ -6,4 +6,14 @@ class UserSingleton {
   // init things inside this
   }
 
+  String id;
+  String email;
+  String name;
+  String nickname;
+  String image;
+  String token;
+  String type;
+  String client;
+  String uid;
+  String password;
 }

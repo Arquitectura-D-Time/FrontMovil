@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_prueba_uno/LogIn_Home.dart';
 import 'package:flutter_app_prueba_uno/Pages/Agendadas.dart';
+import 'package:flutter_app_prueba_uno/Pages/Login.dart';
+import 'package:flutter_app_prueba_uno/Pages/Perfil.dart';
 import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -27,7 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: agendadasUI,
+      home: LogIn(),
     );
   }
 }
