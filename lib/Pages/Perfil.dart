@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
+import 'package:flutter_app_prueba_uno/Pages/Agendadas.dart';
 import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -51,7 +52,7 @@ class PerfilUI extends StatelessWidget {
                 width: getHeightWithoutSafeArea(context) * 0.10,
               ),
               Text(
-                'Soy un hp buo',
+                'Soy soy estudiante soy ...',
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -69,7 +70,7 @@ class PerfilUI extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             splashColor: Colors.blueAccent,
             onPressed: () {
-              /*...*/
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>  AgendadasUI()));
             },
             child: Text(
               "Tutorias Agendadas",

@@ -311,3 +311,7 @@ String deleteComentario(int idcomento, int idcomentado) {
   return query;
 }
 }
+
+
+
+//...................Turorias.............................................//

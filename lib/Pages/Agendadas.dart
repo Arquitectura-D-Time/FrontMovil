@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
 import 'package:flutter_app_prueba_uno/Pages/Login.dart';
 import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
+import 'package:flutter_app_prueba_uno/singletonInstance/UserSingleton.dart';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/foundation.dart';
@@ -39,35 +40,44 @@ class AgendadasUI extends StatelessWidget {
   Widget _buildList(QueryResult result) {
     final _suggestions = result.data['allAgendadas'];
     return ListView.builder(
-      itemBuilder: (context, i) {
-        if (i < _suggestions.length) {
-          return _Cards(_suggestions[i]['NombreAlumno']);
-        }
+        itemCount: _suggestions.length,
+        itemBuilder: (context, i) {
+          if(_suggestions[i]['IDalumno'] != UserSingleton().id){
+            return _Cards("Matematicas", _suggestions[i]['IDtutoria'], 2);
+          }
+          else{
+            return SizedBox(
+              height: 0,
+            );
+          }
       },
     );
   }
 
-  Widget _Cards(String cadenita) {
+  Widget _Cards(String materia, int IDtutoria, int IDalumno) {
+
+
+
     return Center(
       child: Card(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ListTile(
-              leading: Icon(Icons.album),
-              title: Text(cadenita),
-              subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+              leading: Icon(Icons.class_),
+              title: Text(materia),
+              subtitle: Text(IDtutoria.toString()),
             ),
             ButtonTheme.bar(
               // make buttons use the appropriate styles for cards
               child: ButtonBar(
                 children: <Widget>[
                   FlatButton(
-                    child: const Text('BUY TICKETS'),
+                    child: const Text('Editar'),
                     onPressed: () {/* ... */},
                   ),
                   FlatButton(
-                    child: const Text('LISTEN'),
+                    child: const Text('Borrar'),
                     onPressed: () {/* ... */},
                   ),
                 ],
