@@ -16,4 +16,7 @@ class UserSingleton {
   String client;
   String uid;
   String password;
+
+  int idTutoriaAgendada;
+
 }

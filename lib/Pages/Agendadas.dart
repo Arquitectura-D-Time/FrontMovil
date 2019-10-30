@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
-import 'package:flutter_app_prueba_uno/Pages/Login.dart';
 import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
 import 'package:flutter_app_prueba_uno/singletonInstance/UserSingleton.dart';
 
@@ -8,7 +7,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/foundation.dart';
 
 class AgendadasUI extends StatelessWidget {
-  //final _suggestions =['asd','asdsss','asds','asdd','asda','asd','asdsss','asds','asdd','asda'];
 
   QueryMutations queries = QueryMutations();
 
@@ -55,8 +53,6 @@ class AgendadasUI extends StatelessWidget {
   }
 
   Widget _Cards(String materia, int IDtutoria, int IDalumno) {
-
-
 
     return Center(
       child: Card(

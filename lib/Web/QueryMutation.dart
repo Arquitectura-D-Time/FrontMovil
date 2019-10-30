@@ -36,7 +36,7 @@ class QueryMutations {
             ''';
   }
 
-  String createAgendadas(int IDtutoria, int IDalumno, String NombreAlumno) {
+  String createAgendadas({int IDtutoria, int IDalumno, String NombreAlumno}) {
     return '''
           mutation {
             createAgendadas(agendadas: {
@@ -227,6 +227,19 @@ class QueryMutations {
                       }
                     }
                     ''';
+    return query;
+  }
+
+  String userById({int idUser}){
+    String query = '''
+                    query{
+                      userById(idUser: $idUser){
+                        name
+                        nickname
+                        email
+                      }
+                    }
+                  ''';
     return query;
   }
 
