@@ -110,6 +110,7 @@ class PerfilUI extends StatelessWidget {
             tooltip: 'Agregar Comentario',
             child: Icon(Icons.add),
           ),
+
         ],
       ),
     );

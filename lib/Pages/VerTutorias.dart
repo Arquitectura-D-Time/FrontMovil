@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
+import 'package:flutter_app_prueba_uno/Pages/Perfil.dart';
 import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/foundation.dart';
@@ -15,10 +16,21 @@ class VerTutoriasUI extends StatelessWidget {
       context, MaterialPageRoute(builder: (context) =>  CargaAgendarUI()));
   }
 
+  _verPerfil(BuildContext context) {
+    return PerfilUI();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+
+    var app = null;
+    if (su.appBar == true){
+      app = TutoriasAppBar().build(context);
+      su.appBar = null;
+    }
+
     return Scaffold(
+      appBar: app,
       body: Query(
         options: QueryOptions(
           document: queries.allHorarios(),
@@ -63,7 +75,7 @@ class VerTutoriasUI extends StatelessWidget {
 
     return Query(
         options: QueryOptions(
-        document: queries2.userById(idUser: 1),
+        document: queries2.userById(idUser: IDtutor),
       ),
       builder: (QueryResult result2, {VoidCallback refetch}) {
       if (result2.loading) {
@@ -105,6 +117,12 @@ class VerTutoriasUI extends StatelessWidget {
                       onPressed: () {
                         su.idTutoriaAgendada = IDtutoria;
                         _cargaAgendar(context);
+                      },
+                    ),
+                    FlatButton(
+                      child: const Text('Ver Perfil del Tutor'),
+                      onPressed: () {
+                        _verPerfil(context);
                       },
                     ),
                   ],

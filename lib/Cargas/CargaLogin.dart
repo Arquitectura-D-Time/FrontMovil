@@ -3,12 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
 import 'package:flutter_app_prueba_uno/Pages/Agendadas.dart';
+import 'package:flutter_app_prueba_uno/Pages/MisTutorias.dart';
 import 'package:flutter_app_prueba_uno/Pages/Perfil.dart';
 import 'package:flutter_app_prueba_uno/Pages/VerTutorias.dart';
+import 'package:flutter_app_prueba_uno/Pages/TutoriasMainMenu.dart';
 import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_app_prueba_uno/singletonInstance/UserSingleton.dart';
+
 import 'dart:convert';
 
 class CargaLoginUI extends StatelessWidget {
@@ -50,7 +53,7 @@ class CargaLoginUI extends StatelessWidget {
           su.uid = (jsonDecode(jsonA)['createSession']['uid']).toString();
 
           print('id: ' + su.id);
-          return VerTutoriasUI();
+          return TutoriasMainMenu();
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => PerfilUI()));
           //return _buildList(result);

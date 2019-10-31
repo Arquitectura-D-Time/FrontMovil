@@ -3,6 +3,7 @@ import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
 import 'package:flutter_app_prueba_uno/Pages/Agendadas.dart';
 import 'package:flutter_app_prueba_uno/Pages/Perfil.dart';
 import 'package:flutter_app_prueba_uno/Pages/VerTutorias.dart';
+import 'package:flutter_app_prueba_uno/Pages/TutoriasMainMenu.dart';
 import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/foundation.dart';
@@ -14,6 +15,7 @@ class CargaAgendarUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(su.name.toString());
     return Scaffold(
       appBar: TutoriasAppBar().build(context),
       body: Query(
@@ -30,7 +32,7 @@ class CargaAgendarUI extends StatelessWidget {
           if (result.data == null) {
             print(result.errors);
           }
-          return VerTutoriasUI();
+          return TutoriasMainMenu();
         },
       ),
     );
