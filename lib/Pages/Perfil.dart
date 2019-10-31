@@ -81,7 +81,7 @@ class PerfilUI extends StatelessWidget {
             height: getHeightWithoutSafeArea(context) * 0.02,
           ),
           Container(
-              height: getFullScreenHeight(context) * 0.65,
+              height: getFullScreenHeight(context) * 0.5,
               child: _buildList(result)),
         ],
       ),
