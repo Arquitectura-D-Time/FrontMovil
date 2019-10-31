@@ -63,7 +63,7 @@ class VerTutoriasUI extends StatelessWidget {
 
     return Query(
         options: QueryOptions(
-        document: queries2.userById(idUser: 1),
+        document: queries2.userById(idUser: IDtutor),
       ),
       builder: (QueryResult result2, {VoidCallback refetch}) {
       if (result2.loading) {
@@ -102,6 +102,13 @@ class VerTutoriasUI extends StatelessWidget {
                   children: <Widget>[
                     FlatButton(
                       child: const Text('Agendar'),
+                      onPressed: () {
+                        su.idTutoriaAgendada = IDtutoria;
+                        _cargaAgendar(context);
+                      },
+                    ),
+                    FlatButton(
+                      child: const Text('Ver Perfil del Tutor'),
                       onPressed: () {
                         su.idTutoriaAgendada = IDtutoria;
                         _cargaAgendar(context);

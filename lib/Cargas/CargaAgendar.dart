@@ -14,6 +14,7 @@ class CargaAgendarUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(su.name.toString());
     return Scaffold(
       appBar: TutoriasAppBar().build(context),
       body: Query(
@@ -30,7 +31,7 @@ class CargaAgendarUI extends StatelessWidget {
           if (result.data == null) {
             print(result.errors);
           }
-          return VerTutoriasUI();
+          return AgendadasUI();
         },
       ),
     );

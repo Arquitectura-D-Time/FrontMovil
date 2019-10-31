@@ -18,5 +18,6 @@ class UserSingleton {
   String password;
 
   int idTutoriaAgendada;
+  int idPerfil;
 
 }

@@ -24,7 +24,7 @@ class QueryMutations {
             ''';
   }
 
-  String agendadasByAlumno(int IDalumno) {
+  String agendadasByAlumno({int IDalumno}) {
     return '''
             query {
               agendadasByAlumno(IDalumno: $IDalumno){
@@ -115,7 +115,7 @@ class QueryMutations {
     ''';
   }
 
-  String horarioById(int IDtutoria) {
+  String horarioById({int IDtutoria}) {
     return '''
       query {
         horarioById(IDtutoria: $IDtutoria) {
@@ -131,7 +131,7 @@ class QueryMutations {
     ''';
   }
 
-  String horarioByTutor(int IDtutor) {
+  String horarioByTutor({int IDtutor}) {
     return '''
       query {
         horarioByTutor(IDtutoria: $IDtutor) {
