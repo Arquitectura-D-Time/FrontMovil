@@ -2,28 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_prueba_uno/Cargas/CargaLogin.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
 import 'package:flutter_app_prueba_uno/LogIn_Home.dart';
+import 'package:flutter_app_prueba_uno/Pages/Agendadas.dart';
+import 'package:flutter_app_prueba_uno/Pages/MisTutorias.dart';
+import 'package:flutter_app_prueba_uno/Pages/Perfil.dart';
+import 'package:flutter_app_prueba_uno/Pages/VerTutorias.dart';
 import 'package:flutter_app_prueba_uno/Util/ScreenUtil.dart';
+import 'package:flutter_app_prueba_uno/singletonInstance/UserSingleton.dart';
 
 class TutoriasMainMenu extends StatelessWidget {
 
   _goToProfile(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => CargaLoginUI()));
+        context, MaterialPageRoute(builder: (context) => PerfilUI()));
   }
 
   _goToLookUpTutoria(BuildContext context) {
+    UserSingleton().appBar = true;
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => TutoriasMainMenu()));
+        context, MaterialPageRoute(builder: (context) => VerTutoriasUI()));
   }
 
   _goToMyTutoria(BuildContext context) {
+    UserSingleton().appBar = true;
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => TutoriasMainMenu()));
+        context, MaterialPageRoute(builder: (context) => MisTutoriasUI()));
   }
 
   _goToAgnTutoria(BuildContext context) {
+    UserSingleton().appBar = true;
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => TutoriasMainMenu()));
+        context, MaterialPageRoute(builder: (context) => AgendadasUI()));
   }
 
   _goToLogInHome(context){
@@ -152,7 +160,7 @@ class TutoriasMainMenu extends StatelessWidget {
 
 
     return Scaffold(
-        appBar: TutoriasAppBar().build(context),
+        //appBar: TutoriasAppBar().build(context),
         body: SingleChildScrollView(
           child: Container(
             height: getHeightWithoutSafeArea(context) * (1 - 0.1),

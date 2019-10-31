@@ -10,6 +10,7 @@ import 'dart:convert';
 class AgendadasUI extends StatelessWidget {
 
   QueryMutations queries = QueryMutations();
+  UserSingleton su = UserSingleton();
 
   _verPerfil(BuildContext context) {
     return PerfilUI();
@@ -17,8 +18,14 @@ class AgendadasUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    var app = null;
+    if (su.appBar == true){
+      app = TutoriasAppBar().build(context);
+      su.appBar = null;
+    }
+
     return Scaffold(
+      appBar: app,
       body: Query(
         options: QueryOptions(
           document: queries.agendadasByAlumno(IDalumno : int.parse(UserSingleton().id)),

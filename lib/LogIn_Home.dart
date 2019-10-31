@@ -9,7 +9,7 @@ import 'package:flutter_app_prueba_uno/singletonInstance/UserSingleton.dart';
 class LogIn extends StatelessWidget {
   _goToLogIn(BuildContext context) {
     Navigator.push(
-       context, MaterialPageRoute(builder: (context) => TutoriasMainMenu()));
+       context, MaterialPageRoute(builder: (context) => CargaLoginUI()));
   }
 
   _goToSignIn(BuildContext context) {

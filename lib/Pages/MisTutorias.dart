@@ -31,7 +31,14 @@ class MisTutoriasUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var app = null;
+    if (su.appBar == true){
+      app = TutoriasAppBar().build(context);
+      su.appBar = null;
+    }
+
     return Scaffold(
+      appBar: app,
       body: Query(
         options: QueryOptions(
           document:

@@ -20,4 +20,5 @@ class UserSingleton {
   int idTutoriaAgendada;
   int idPerfil;
 
+  bool appBar;
 }

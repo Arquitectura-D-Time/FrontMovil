@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
 import 'package:flutter_app_prueba_uno/Pages/Perfil.dart';
 import 'package:flutter_app_prueba_uno/Pages/VerTutorias.dart';
+import 'package:flutter_app_prueba_uno/Pages/TutoriasMainMenu.dart';
 import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
