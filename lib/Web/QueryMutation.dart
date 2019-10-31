@@ -24,7 +24,7 @@ class QueryMutations {
             ''';
   }
 
-  String agendadasByAlumno(int IDalumno) {
+  String agendadasByAlumno({int IDalumno}) {
     return '''
             query {
               agendadasByAlumno(IDalumno: $IDalumno){
@@ -36,7 +36,7 @@ class QueryMutations {
             ''';
   }
 
-  String createAgendadas(int IDtutoria, int IDalumno, String NombreAlumno) {
+  String createAgendadas({int IDtutoria, int IDalumno, String NombreAlumno}) {
     return '''
           mutation {
             createAgendadas(agendadas: {
@@ -115,7 +115,7 @@ class QueryMutations {
     ''';
   }
 
-  String horarioById(int IDtutoria) {
+  String horarioById({int IDtutoria}) {
     return '''
       query {
         horarioById(IDtutoria: $IDtutoria) {
@@ -131,10 +131,10 @@ class QueryMutations {
     ''';
   }
 
-  String horarioByTutor(int IDtutor) {
+  String horarioByTutor({int IDtutor}) {
     return '''
       query {
-        horarioByTutor(IDtutoria: $IDtutor) {
+        horarioByTutor(IDtutor: $IDtutor) {
           IDtutoria
           IDtutor
           NombreMateria
@@ -227,6 +227,19 @@ class QueryMutations {
                       }
                     }
                     ''';
+    return query;
+  }
+
+  String userById({int idUser}){
+    String query = '''
+                    query{
+                      userById(idUser: $idUser){
+                        name
+                        nickname
+                        email
+                      }
+                    }
+                  ''';
     return query;
   }
 

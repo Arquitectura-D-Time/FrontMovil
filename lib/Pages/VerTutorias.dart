@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
 import 'package:flutter_app_prueba_uno/Pages/Perfil.dart';
 import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
-import 'package:flutter_app_prueba_uno/singletonInstance/UserSingleton.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:convert';
+import 'package:flutter_app_prueba_uno/Cargas/CargaAgendar.dart';
+import 'package:flutter_app_prueba_uno/singletonInstance/UserSingleton.dart';
 
-class AgendadasUI extends StatelessWidget {
-
+class VerTutoriasUI extends StatelessWidget {
   QueryMutations queries = QueryMutations();
+  var su = UserSingleton();
+
+  _cargaAgendar(BuildContext context) {
+    Navigator.push(
+      context, MaterialPageRoute(builder: (context) =>  CargaAgendarUI()));
+  }
 
   _verPerfil(BuildContext context) {
     return PerfilUI();
@@ -21,7 +26,7 @@ class AgendadasUI extends StatelessWidget {
     return Scaffold(
       body: Query(
         options: QueryOptions(
-          document: queries.agendadasByAlumno(IDalumno : int.parse(UserSingleton().id)),
+          document: queries.allHorarios(),
         ),
         builder: (QueryResult result, {VoidCallback refetch}) {
           if (result.loading) {
@@ -39,66 +44,61 @@ class AgendadasUI extends StatelessWidget {
   }
 
   Widget _buildList(QueryResult result) {
-    final _suggestions = result.data['agendadasByAlumno'];
-    print('que taaaaaaaaaaaaaaaaaaal');
-    print(_suggestions[0]['IDtutoria']);
-    print(UserSingleton().id);
+    final _suggestions = result.data['allHorarios'];
     return ListView.builder(
       itemBuilder: (context, i) {
         if (i < _suggestions.length) {
-            return _Cards(context,
-                _suggestions[i]['IDtutoria'],
-                _suggestions[i]['IDalumno'],
-                _suggestions[i]['NombreAlumno']
-            );
-          }
+          return _Cards(context,
+              _suggestions[i]['IDtutoria'],
+              _suggestions[i]['IDtutor'],
+              _suggestions[i]['NombreMateria'],
+              _suggestions[i]['Fecha'],
+              _suggestions[i]['HoraInicio'],
+              _suggestions[i]['HoraFinal'],
+              _suggestions[i]['Cupos']);
+        }
       },
     );
   }
 
-  Widget _Cards(BuildContext context, int IDtutoria, int IDalumno, String NombreAlumno) {
+  Widget _Cards(BuildContext context, int IDtutoria, int IDtutor, String materia, String fecha,
+      String horaIni, String horaFin, int cupos) {
 
     QueryMutations queries2 = QueryMutations();
 
     return Query(
         options: QueryOptions(
-        document: queries2.horarioById(IDtutoria: IDtutoria),
+        document: queries2.userById(idUser: IDtutor),
       ),
       builder: (QueryResult result2, {VoidCallback refetch}) {
       if (result2.loading) {
-        return Center(child: CircularProgressIndicator());
+      return Center(child: CircularProgressIndicator());
       }
 
       if (result2.data == null) {
       //return Center(child: Text('Countries not found.'));
-        print(result2.errors);
+      print(result2.errors);
       }
-      print(jsonDecode(jsonEncode(result2.data)));
-
-      var res = jsonDecode(jsonEncode(result2.data));
-      print("holaaa");
-      print(res['horarioById'][0]);
-      print(jsonDecode(jsonEncode(res['horarioById'][0])));
-      var res2 = jsonDecode(jsonEncode(res['horarioById'][0]));
-      print(res2['NombreMateria']);
-
-
-      return Center(
+       return Center(
         child: Card(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
                 leading: Icon(Icons.class_),
-                title: Text(res2['NombreMateria']),
+                title: Text(materia),
                 subtitle: Text('Fecha:\t\t\t\t\t' +
-                    res2['Fecha'] +
-                '\nHorario:\t\t ' +
-                    res2['HoraInicio'] +
-                ' - ' +
-                    res2['HoraFinal'] +
-                '\nCupos:\t\t\t\t ' +
-                    res2['Cupos'].toString()
+                    fecha +
+                    '\nHorario:\t\t ' +
+                    horaIni +
+                    ' - ' +
+                    horaFin +
+                    '\nCupos:\t\t\t\t ' +
+                    cupos.toString() +
+                    '\nTutor: \t\t\t\t\t' +
+                    result2.data['userById']['name'] +
+                    '\nCorreo:\t\t\t\t' +
+                    result2.data['userById']['email']
                 ),
               ),
               ButtonTheme.bar(
@@ -106,26 +106,27 @@ class AgendadasUI extends StatelessWidget {
                 child: ButtonBar(
                   children: <Widget>[
                     FlatButton(
+                      child: const Text('Agendar'),
+                      onPressed: () {
+                        su.idTutoriaAgendada = IDtutoria;
+                        _cargaAgendar(context);
+                      },
+                    ),
+                    FlatButton(
                       child: const Text('Ver Perfil del Tutor'),
                       onPressed: () {
                         _verPerfil(context);
                       },
-                  ),
-                    FlatButton(
-                      child: const Text('Modificar'),
-                      onPressed: () {
-                        /* ... */
-                      },
                     ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
-      //return _buildList(result);
-    },
+       );
+        //return _buildList(result);
+      },
     );
   }
 }
