@@ -37,8 +37,12 @@ class CargaUI extends StatelessWidget {
             print(result.errors);
             Navigator.pop(context);
           }
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) =>  VerTutoriasUI()));
+
+          //Navigator.push(
+            //  context, MaterialPageRoute(builder: (context) =>  VerTutoriasUI()));
+
+          return  TutoriasMainMenu();
+
           //return _buildList(result);
         },
       ),
