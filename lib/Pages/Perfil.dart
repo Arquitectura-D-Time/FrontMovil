@@ -12,12 +12,14 @@ import 'package:flutter_app_prueba_uno/singletonInstance/UserSingleton.dart';
 class PerfilUI extends StatelessWidget {
   QueryMutations queries = QueryMutations();
   UserSingleton us = UserSingleton();
-  var idPerfil = "3";
+  String idPerfil;
+
   @override
   Widget build(BuildContext context) {
-    us.id = "2"; //quitar cuando ya este enlazado
-
-    return Query(
+    idPerfil = us.idPerfil.toString();
+    return Scaffold(
+        appBar: TutoriasAppBar().build(context),
+        body: Query(
       options: QueryOptions(
         document: queries.getAllComentariosById(int.parse(idPerfil)),
       ),
@@ -33,7 +35,7 @@ class PerfilUI extends StatelessWidget {
         return _mainContainer(context, result);
         //return _buildList(result);
       },
-    );
+    ));
   }
 
   Widget _mainContainer(BuildContext context, QueryResult result) {
@@ -96,7 +98,6 @@ class PerfilUI extends StatelessWidget {
           SizedBox(
             height: getHeightWithoutSafeArea(context) * 0.02,
           ),
-
           SizedBox(
             height: getHeightWithoutSafeArea(context) * 0.02,
           ),
@@ -104,13 +105,12 @@ class PerfilUI extends StatelessWidget {
               height: getFullScreenHeight(context) * 0.65,
               child: _buildList(context, result)),
           FloatingActionButton(
-            onPressed: (){
+            onPressed: () {
               _botonMas(context);
             },
             tooltip: 'Agregar Comentario',
             child: Icon(Icons.add),
           ),
-
         ],
       ),
     );
@@ -212,9 +212,8 @@ class PerfilUI extends StatelessWidget {
     );
   }
 
-
-  _botonMas(BuildContext context){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>ComentariosUI()));
+  _botonMas(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ComentariosUI()));
   }
-
 }

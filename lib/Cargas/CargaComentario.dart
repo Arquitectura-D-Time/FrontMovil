@@ -14,13 +14,15 @@ import 'dart:convert';
 class CargaComentarioUI extends StatelessWidget {
   QueryMutations queries = QueryMutations();
   var su = UserSingleton();
-  var comentariotxt = "comentario de prueba" ;
-  var idPerfil = "3";
+  var comentariotxt;
+  var idPerfil;
   @override
   Widget build(BuildContext context) {
+    comentariotxt = su.comentariotxt;
+    idPerfil = su.idPerfil;
     print(queries.createComentario(
         idcomento: int.parse(UserSingleton().id),
-        idcomentado: int.parse(idPerfil),
+        idcomentado: int.parse(su.idPerfil),
         comentario: comentariotxt,
         fecha: DateTime.now().day.toString() +
             "-" +
@@ -29,14 +31,15 @@ class CargaComentarioUI extends StatelessWidget {
             DateTime.now().year.toString(),
         hora: DateTime.now().hour.toString() +
             ":" +
-            DateTime.now().minute.toString()));
+            DateTime.now().minute.toString()),
+    );
     return Scaffold(
       appBar: TutoriasAppBar().build(context),
       body: Query(
         options: QueryOptions(
           document: queries.createComentario(
               idcomento: int.parse(UserSingleton().id),
-              idcomentado: int.parse(idPerfil),
+              idcomentado: int.parse(su.idPerfil),
               comentario: comentariotxt,
               fecha: DateTime.now().day.toString() +
                   "-" +
@@ -53,10 +56,12 @@ class CargaComentarioUI extends StatelessWidget {
           }
 
           if (result.data == null) {
+            print('perra vida');
+            Navigator.pop(context);
             //return Center(child: Text('Countries not found.'));
             print(result.errors);
           }
-          return PerfilUI();
+          Navigator.pop(context);
           //return _buildList(result);
         },
       )

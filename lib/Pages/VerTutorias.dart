@@ -16,8 +16,10 @@ class VerTutoriasUI extends StatelessWidget {
       context, MaterialPageRoute(builder: (context) =>  CargaAgendarUI()));
   }
 
-  _verPerfil(BuildContext context) {
-    return PerfilUI();
+  _verPerfil(BuildContext context, String idPerfil) {
+    su.idPerfil = idPerfil;
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => PerfilUI()));
   }
 
   @override
@@ -122,7 +124,7 @@ class VerTutoriasUI extends StatelessWidget {
                     FlatButton(
                       child: const Text('Ver Perfil del Tutor'),
                       onPressed: () {
-                        _verPerfil(context);
+                        _verPerfil(context, IDtutor.toString());
                       },
                     ),
                   ],

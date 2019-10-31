@@ -12,6 +12,7 @@ import 'package:flutter_app_prueba_uno/singletonInstance/UserSingleton.dart';
 class TutoriasMainMenu extends StatelessWidget {
 
   _goToProfile(BuildContext context) {
+    UserSingleton().idPerfil = UserSingleton().id;
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => PerfilUI()));
   }

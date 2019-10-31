@@ -10,7 +10,7 @@ import 'package:flutter_app_prueba_uno/Util/ScreenUtil.dart';
 import 'package:flutter_app_prueba_uno/singletonInstance/UserSingleton.dart';
 
 class ComentariosUI extends StatelessWidget {
-  var idPerfil = "3";
+  String idPerfil;
   var create = true;
   var textoInicial = "";
   var comentariotxt = "";
@@ -19,6 +19,7 @@ class ComentariosUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    idPerfil = UserSingleton().idPerfil.toString();
     return Query(
       options: QueryOptions(
         document: queries.getComentarioById(
@@ -120,6 +121,7 @@ class ComentariosUI extends StatelessWidget {
             return TextFormField(
               onChanged: (text) {
                 comentariotxt = text;
+                us.comentariotxt = comentariotxt;
               },
               maxLines: 5,
               initialValue: textoInicial,
