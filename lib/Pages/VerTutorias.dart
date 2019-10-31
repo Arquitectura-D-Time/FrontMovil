@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
+import 'package:flutter_app_prueba_uno/Pages/Perfil.dart';
 import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/foundation.dart';
@@ -13,6 +14,10 @@ class VerTutoriasUI extends StatelessWidget {
   _cargaAgendar(BuildContext context) {
     Navigator.push(
       context, MaterialPageRoute(builder: (context) =>  CargaAgendarUI()));
+  }
+
+  _verPerfil(BuildContext context) {
+    return PerfilUI();
   }
 
   @override
@@ -110,8 +115,7 @@ class VerTutoriasUI extends StatelessWidget {
                     FlatButton(
                       child: const Text('Ver Perfil del Tutor'),
                       onPressed: () {
-                        su.idTutoriaAgendada = IDtutoria;
-                        _cargaAgendar(context);
+                        _verPerfil(context);
                       },
                     ),
                   ],

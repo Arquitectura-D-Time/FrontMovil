@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
+import 'package:flutter_app_prueba_uno/Pages/Perfil.dart';
 import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
 import 'package:flutter_app_prueba_uno/singletonInstance/UserSingleton.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -10,6 +11,9 @@ class AgendadasUI extends StatelessWidget {
 
   QueryMutations queries = QueryMutations();
 
+  _verPerfil(BuildContext context) {
+    return PerfilUI();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +108,7 @@ class AgendadasUI extends StatelessWidget {
                     FlatButton(
                       child: const Text('Ver Perfil del Tutor'),
                       onPressed: () {
-                        /* ... */
+                        _verPerfil(context);
                       },
                   ),
                     FlatButton(

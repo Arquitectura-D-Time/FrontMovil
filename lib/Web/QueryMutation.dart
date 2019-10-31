@@ -134,7 +134,7 @@ class QueryMutations {
   String horarioByTutor({int IDtutor}) {
     return '''
       query {
-        horarioByTutor(IDtutoria: $IDtutor) {
+        horarioByTutor(IDtutor: $IDtutor) {
           IDtutoria
           IDtutor
           NombreMateria

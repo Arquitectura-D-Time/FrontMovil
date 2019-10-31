@@ -31,7 +31,7 @@ class CargaAgendarUI extends StatelessWidget {
           if (result.data == null) {
             print(result.errors);
           }
-          return AgendadasUI();
+          return TutoriasMainMenu();
         },
       ),
     );
