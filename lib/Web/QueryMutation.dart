@@ -260,7 +260,7 @@ String getComentarios() {
   return query;
 }
 
-String getComentarioById(int idcomento, int idcomentado) {
+String getComentarioById({int idcomento, int idcomentado}) {
   String query = '''
     query {
       comentarioById(idcomento: $idcomento, idcomentado: $idcomentado) {
@@ -275,23 +275,23 @@ String getComentarioById(int idcomento, int idcomentado) {
   return query;
 }
 
-String createComentario(int idcomento, int idcomentado, String comentario,
-    String fecha, String hora) {
+String createComentario({int idcomento, int idcomentado, String comentario,
+    String fecha, String hora}) {
   String query = '''
-    mutation {
+     mutation {
         createComentario(comentario: {
             idcomento: $idcomento
             idcomentado: $idcomentado
-            comentario: "$comentario"
-            fecha: "$fecha"
-            hora: "$hora"
+          comentario: "$comentario"
+          fecha: "$fecha"
+           hora: "$hora"
         }){
             idcomento
             idcomentado
             comentario
             fecha
-            hora
-        }
+             hora
+         }
     }
                     ''';
   return query;
@@ -323,6 +323,33 @@ String deleteComentario(int idcomento, int idcomentado) {
                     ''';
   return query;
 }
+
+  String getAllComentariosById(int idcomentado) {
+    String query = '''
+    query {
+      comentariosAllById(idcomentado: $idcomentado) {
+          idcomento
+          idcomentado
+          comentario
+          fecha
+          hora
+      }
+    }
+                    ''';
+    return query;
+  }
+
+  String getImageById(int Id) {
+    String query = '''
+    query{
+      imageById(Id: $Id){
+        urlimg
+      }
+    }
+                    ''';
+    return query;
+  }
+
 }
 
 

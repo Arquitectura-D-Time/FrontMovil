@@ -31,7 +31,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LogIn(),
+      home: Scaffold(
+
+        body: PerfilUI(),
+      ),
     );
   }
 }

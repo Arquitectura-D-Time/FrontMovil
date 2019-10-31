@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_prueba_uno/Common/TutoriasAppBar.dart';
 import 'package:flutter_app_prueba_uno/Pages/Agendadas.dart';
+import 'package:flutter_app_prueba_uno/Pages/Comentarios.dart';
 import 'package:flutter_app_prueba_uno/Web/QueryMutation.dart';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -10,28 +11,29 @@ import 'package:flutter_app_prueba_uno/singletonInstance/UserSingleton.dart';
 
 class PerfilUI extends StatelessWidget {
   QueryMutations queries = QueryMutations();
-
+  UserSingleton us = UserSingleton();
+  var idPerfil = "3";
   @override
   Widget build(BuildContext context) {
+    us.id = "2"; //quitar cuando ya este enlazado
 
     return Query(
-        options: QueryOptions(
-          document: queries.getComentarios(),
-        ),
-        builder: (QueryResult result, {VoidCallback refetch}) {
-          if (result.loading) {
-            return Center(child: CircularProgressIndicator());
-          }
+      options: QueryOptions(
+        document: queries.getAllComentariosById(int.parse(idPerfil)),
+      ),
+      builder: (QueryResult result, {VoidCallback refetch}) {
+        if (result.loading) {
+          return Center(child: CircularProgressIndicator());
+        }
 
-          if (result.data == null) {
-            //return Center(child: Text('Countries not found.'));
-            print(result.errors);
-          }
-          return _mainContainer(context, result);
-          //return _buildList(result);
-        },
-      );
-
+        if (result.data == null) {
+          //return Center(child: Text('Countries not found.'));
+          print(result.errors);
+        }
+        return _mainContainer(context, result);
+        //return _buildList(result);
+      },
+    );
   }
 
   Widget _mainContainer(BuildContext context, QueryResult result) {
@@ -46,71 +48,93 @@ class PerfilUI extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Image.network(
-                'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg',
-                height: getHeightWithoutSafeArea(context) * 0.10,
-                width: getHeightWithoutSafeArea(context) * 0.10,
+              Query(
+                options: QueryOptions(
+                  document: queries.getImageById(int.parse(idPerfil)),
+                ),
+                builder: (QueryResult result, {VoidCallback refetch}) {
+                  if (result.loading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+
+                  if (result.data == null) {
+                    //return Center(child: Text('Countries not found.'));
+                    print(result.errors);
+                  }
+                  return Image.network(
+                    result.data["imageById"]["urlimg"],
+                    height: getHeightWithoutSafeArea(context) * 0.10,
+                    width: getHeightWithoutSafeArea(context) * 0.10,
+                  );
+                  //return _buildList(result);
+                },
               ),
-              Text(
-                'Soy soy estudiante soy ...',
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Query(
+                options: QueryOptions(
+                  document: queries.userById(idUser: int.parse(idPerfil)),
+                ),
+                builder: (QueryResult result, {VoidCallback refetch}) {
+                  if (result.loading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+
+                  if (result.data == null) {
+                    //return Center(child: Text('Countries not found.'));
+                    print(result.errors);
+                  }
+                  return Text(
+                    result.data["userById"]["name"],
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  );
+                  //return _buildList(result);
+                },
               )
             ],
           ),
           SizedBox(
             height: getHeightWithoutSafeArea(context) * 0.02,
           ),
-          FlatButton(
-            color: Colors.blue,
-            textColor: Colors.white,
-            disabledColor: Colors.grey,
-            disabledTextColor: Colors.black,
-            padding: EdgeInsets.all(8.0),
-            splashColor: Colors.blueAccent,
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>  AgendadasUI()));
-            },
-            child: Text(
-              "Tutorias Agendadas",
-              style: TextStyle(fontSize: 20.0),
-            ),
-          ),
+
           SizedBox(
             height: getHeightWithoutSafeArea(context) * 0.02,
           ),
           Container(
-              height: getFullScreenHeight(context) * 0.5,
-              child: _buildList(result)),
+              height: getFullScreenHeight(context) * 0.65,
+              child: _buildList(context, result)),
+          FloatingActionButton(
+            onPressed: (){
+              _botonMas(context);
+            },
+            tooltip: 'Agregar Comentario',
+            child: Icon(Icons.add),
+          ),
+
         ],
       ),
     );
   }
 
-  Widget _buildList(QueryResult result) {
-    final _suggestions = result.data['getComentarios'];
+  Widget _buildList(BuildContext context, QueryResult result) {
+    final _suggestions = result.data['comentariosAllById'];
     return ListView.builder(
       itemCount: _suggestions.length,
       itemBuilder: (context, i) {
         print(UserSingleton().id == _suggestions[i]['idcomentado'].toString());
 
-        if (UserSingleton().id != _suggestions[i]['idcomentado'].toString()) {
-          return _Cards(
-              _suggestions[i]['idcomento'].toString(),
-              _suggestions[i]['comentario'],
-              _suggestions[i]['hora'],
-              _suggestions[i]['fecha']);
-        }else{
-          return SizedBox(
-            height: 0,
-          );
-        }
+        return _Cards(
+            context,
+            _suggestions[i]['idcomento'].toString(),
+            _suggestions[i]['comentario'],
+            _suggestions[i]['hora'],
+            _suggestions[i]['fecha']);
       },
     );
   }
 
-  Widget _Cards(String idcomento, String cometario, String hora, String fecha) {
+  Widget _Cards(BuildContext context, String idcomento, String cometario,
+      String hora, String fecha) {
     return Query(
       options: QueryOptions(
         document: ''' 
@@ -138,8 +162,25 @@ class PerfilUI extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 ListTile(
-                  leading: Image.network(
-                      'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f9/f9bc24dcfc04459063b2cc486942a86754e675dc_full.jpg'),
+                  leading: Query(
+                    options: QueryOptions(
+                      document: queries.getImageById(int.parse(idcomento)),
+                    ),
+                    builder: (QueryResult result, {VoidCallback refetch}) {
+                      if (result.loading) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+
+                      if (result.data == null) {
+                        //return Center(child: Text('Countries not found.'));
+                        print(result.errors);
+                      }
+                      return Image.network(result.data["imageById"]["urlimg"]);
+                      //return _buildList(result);
+                    },
+                  ),
+                  /*Image.network(
+                      'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f9/f9bc24dcfc04459063b2cc486942a86754e675dc_full.jpg'),*/
                   title: Text(result.data['userById']['name']),
                   subtitle: Text(cometario),
                 ),
@@ -170,4 +211,10 @@ class PerfilUI extends StatelessWidget {
       },
     );
   }
+
+
+  _botonMas(BuildContext context){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>ComentariosUI()));
+  }
+
 }
